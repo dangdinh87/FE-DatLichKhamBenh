@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header';
 import routers from './routes/index';
+import { themeConfig } from './themes/theme';
 // import { themeConfig } from './theme/themes';
 // import Footer from './components/Footer';
 
@@ -48,8 +49,8 @@ export default function App(props) {
       </Zoom>
     );
   }
-  // const isDarkMode = useSelector((state) => state.system.isDarkMode);
-  // const theme = useMemo(() => themeConfig({ isDarkMode }), [isDarkMode]);
+  const isDarkMode = useSelector((state) => state.system.isDarkMode);
+  const theme = useMemo(() => themeConfig({ isDarkMode }), [isDarkMode]);
   const showRouter = (routes) => {
     let result = routes.map((route, index) => {
       return <Route path={route.path} exact={route.exact} component={route.main} key={index} />;
@@ -58,8 +59,7 @@ export default function App(props) {
   };
   return (
     <Router>
-      <ThemeProvider>
-        {/* <ThemeProvider theme={theme}> */}
+      <ThemeProvider theme={theme}>
         <ToastContainer position="top-right" />
         <CssBaseline />
         <Header />

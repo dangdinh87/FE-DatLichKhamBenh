@@ -1,11 +1,7 @@
 import React from 'react';
+// import { image404 } from './../../static/image404.png';
 
 export default function NotFound() {
-  return (
-    <img
-      src="https://www.artzstudio.com/wp-content/uploads/2020/05/404-error-not-found-page-lost-1024x788.png"
-      alt="404 Not Found"
-      style={{ display: 'block', margin: ' auto' }}
-    />
-  );
+  // return <img src={image404} alt="404 Not Found" style={{ display: 'block', margin: ' auto' }} />;
+  return <>404 Not Found</>;
 }

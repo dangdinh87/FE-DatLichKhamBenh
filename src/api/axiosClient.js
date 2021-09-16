@@ -1,4 +1,5 @@
 import axios from 'axios';
+import nProgress from 'nprogress';
 
 const axiosClient = axios.create({
   baseURL: 'http://localhost:8080/',

@@ -4,10 +4,14 @@ import {
   Checkbox,
   Container,
   CssBaseline,
+  FormControl,
   FormControlLabel,
+  FormLabel,
   Grid,
   IconButton,
   LinearProgress,
+  Radio,
+  RadioGroup,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,7 +20,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import InputField from '../../../components/InputField';
@@ -52,36 +56,44 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     right: theme.spacing(1),
   },
+  login: {
+    color: theme.palette.primary.light,
+    fontSize: '1rem',
+    textDecoration: 'none',
+  },
 }));
 function RegisterForm({ handleClose, onSubmit }) {
   const schema = yup.object().shape({
-    fullName: yup
+    username: yup.string().required('Tên tài khoản không được để trống !'),
+    name: yup
       .string()
-      .required('Please enter your full name !')
-      .test('Full name must contain two words or more', (value) => {
+      .required('Họ tên không được để trống !')
+      .test('Họ và tên phải trên 2 từ ', (value) => {
         return value.split(' ').length >= 2;
       }),
     email: yup
       .string()
-      .required('Please enter your email !')
-      .email('Please enter your address email !'),
+      .required('Email không được để trống !')
+      .email('Nhập đúng định dạng email !'),
     password: yup
       .string()
-      .required('Please enter your password')
-      .min(6, 'Please enter least 6 characters'),
+      .required('Mật khẩu không được để trống !')
+      .min(6, 'Mật khẩu phải trên 6 kí tự'),
     retypePassword: yup
       .string()
-      .required('Please enter retype password')
-      .oneOf([yup.ref('password')], 'Password does not match'),
+      .required('Nhập lại mật khẩu không được để trống !')
+      .oneOf([yup.ref('password')], 'Nhập lại mật khẩu không chính xác !'),
+    phone: yup.string().required('Số điện thoại không được để trống !'),
   });
   const form = useForm({
-    defaultValues: {
-      fullName: '',
-    },
+    // defaultValues: {
+    //   fullName: '',
+    // },
     resolver: yupResolver(schema),
   });
 
   const handleSubmit = async (values) => {
+    console.log(values);
     if (onSubmit) {
       await onSubmit(values);
     }
@@ -106,23 +118,47 @@ function RegisterForm({ handleClose, onSubmit }) {
         <form className={classes.form} onSubmit={form.handleSubmit(handleSubmit)}>
           <Grid container>
             <Grid item xs={12}>
-              <InputField name="fullName" label="Họ và tên" form={form} />
+              <InputField name="username" label="Tài khoản" form={form} />
+            </Grid>
+            <Grid item xs={12}>
+              <InputField name="name" label="Họ và tên" form={form} />
             </Grid>
             <Grid item xs={12}>
               <InputField name="email" label="Gmail" form={form} />
             </Grid>
+            <Grid item xs={12}>
+              <InputField name="phone" label="Số điện thoại" form={form} />
+            </Grid>
+            <Grid item xs={12}></Grid>
+            <Controller
+              name="gender"
+              control={form.control}
+              render={({
+                field: { onChange, onBlur, value, name, ref },
+                fieldState: { invalid, isTouched, isDirty, error },
+                formState,
+              }) => (
+                <RadioGroup name="gender" value={value} onChange={onChange} row defaultValue="male">
+                  <FormControlLabel value="male" control={<Radio />} label="Nam" />
+                  <FormControlLabel value="female" control={<Radio />} label="Nữ" />
+                  <FormControlLabel value="other" control={<Radio />} label="Khác" />
+                </RadioGroup>
+              )}
+            />
+
             <Grid item xs={12}>
               <PasswordField name="password" label="Mật khẩu" form={form} />
             </Grid>
             <Grid item xs={12}>
               <PasswordField name="retypePassword" label="Nhập lại mật khẩu" form={form} />
             </Grid>
-            <Grid item xs={12}>
+
+            {/* <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="Đồng ý với các điều khoản dịch vụ"
               />
-            </Grid>
+            </Grid> */}
             <Button
               type="submit"
               disabled={isSubmitting}
@@ -136,7 +172,9 @@ function RegisterForm({ handleClose, onSubmit }) {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link to="/login">Bạn đã có tài khoản ? Đăng nhập ngay</Link>
+                <Link to="/login" className={classes.login}>
+                  Bạn đã có tài khoản ? Đăng nhập ngay
+                </Link>
               </Grid>
             </Grid>
           </Grid>

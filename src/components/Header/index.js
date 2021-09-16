@@ -1,4 +1,4 @@
-import { Backdrop, Container, CssBaseline } from '@material-ui/core';
+import { Backdrop, Badge, Button, CssBaseline, IconButton, Tooltip } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
 import Menu from '@material-ui/core/Menu';
@@ -6,8 +6,20 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+import CreateIcon from '@material-ui/icons/Create';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import { logout } from '../../features/Auth/userSlice';
+import { toggleDarkMode } from '../../features/System/systemSlice';
+import SearchBar from '../SearchBar';
+import { Box } from '@mui/system';
 // import SearchBar from '../SearchBar';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     textDecoration: 'none',
-    color: theme.palette.background.default,
+    color: 'inherit',
     fontSize: 20,
     textTransform: 'uppercase',
     margin: 5,
@@ -36,32 +48,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
-  messageCart: {
-    position: 'absolute',
-    padding: theme.spacing(2),
-    backgroundColor: 'rgb(255, 255, 255)',
-    top: '90%',
-    borderRadius: theme.spacing(1),
-    right: theme.spacing(3),
-    '&::before': {
-      content: "''",
-      position: 'absolute',
-      bottom: '100%',
-      borderStyle: 'solid',
-      borderWidth: '8px',
-      right: theme.spacing(2),
-      borderColor: 'transparent transparent rgb(255, 255, 255)',
-    },
-  },
-  cartTitle: {
-    marginLeft: theme.spacing(1),
-    color: theme.palette.grey[700],
-  },
-  messageCartSub: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: theme.spacing(2),
-  },
   flexMenuRight: {
     flexWrap: 'row nowrap',
   },
@@ -69,15 +55,21 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 998,
     color: '#fff',
   },
+  rightHeader: {
+    marginLeft: 'auto',
+  },
 }));
 
 export default function ButtonAppBar(props) {
-  // const history = useHistory();
-  // const dispatch = useDispatch();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const [open, setOpen] = useState(false);
   // const MODE = { LOGIN: 'login', REGISTER: 'register' };
   const classes = useStyles();
-  // const userLogin = useSelector((state) => state.user);
-  // const isLogin = !!userLogin.current.id;
+  // const userLogin = useSelector((state) => state.user);\
+  const userLogin = JSON.parse(localStorage.getItem('user')) || '';
+  const isLogin = JSON.parse(localStorage.getItem('user')) || false;
   const [openBackDrop, setOpenBackDrop] = React.useState(false);
   const handleCloseBackDrop = () => {
     setOpenBackDrop(false);
@@ -86,80 +78,104 @@ export default function ButtonAppBar(props) {
     setOpenBackDrop(value);
   };
   const [anchorEl, setAnchorEl] = useState(null);
-  // const isDarkMode = useSelector((state) => state.system.isDarkMode);
-  // const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const isDarkMode = useSelector((state) => state.system.isDarkMode);
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
 
   const handleCloseMenu = () => {
     // setChecked((prev) => !prev);
     setAnchorEl(null);
   };
 
-  // const handleClose = () => setOpen(false);
+  const handleClickOpen = () => {
+    if (location.pathname === '/login') return;
+    history.push('/login');
+  };
+  const handleClose = () => setOpen(false);
 
-  // const handleLogoutAction = () => {
-  //   const action = logout();
-  //   dispatch(action);
-  //   setAnchorEl(null);
-  //   handleCloseMenu();
-  // };
+  const handleLogoutAction = () => {
+    const action = logout();
+    dispatch(action);
+    setAnchorEl(null);
+    handleCloseMenu();
+  };
 
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar className={classes.navBar} position="sticky" id="back-to-top-anchor">
-        <Container>
-          <Toolbar>
-            <Grid container direction="row" justify="flex-start" alignItems="center" xs={3} item>
-              <Typography variant="h6">
-                <NavLink
-                  to="/products"
-                  exact
-                  className={classes.link}
-                  // activeClassName={classes.link_active}
-                >
-                  TOI DEV
-                </NavLink>
-              </Typography>
-            </Grid>
-            {/* <Grid container direction="row" justify="center" alignItems="center" item xs={true}>
-              <SearchBar onShowOverlay={handleToggle} />
-            </Grid> */}
-            <Grid
-              wrap="nowrap"
-              container
-              direction="row"
-              justify="flex-end"
-              alignItems="center"
-              xs={3}
-            >
-              {/* {isLogin ? (
-                <>
-                  <Grid zeroMinWidth>
-                    <Typography noWrap>{userLogin.current.fullName}</Typography>
-                  </Grid>
+        <Toolbar>
+          <Grid direction="row" justify="flex-start" alignItems="center" xs={4}>
+            <Typography variant="h6">
+              <NavLink
+                to="/post"
+                exact
+                className={classes.link}
+                activeClassName={classes.link_active}
+              >
+                SecondHand Market
+              </NavLink>
+            </Typography>
+          </Grid>
+          <Grid direction="row" justify="center" alignItems="center" xs={3}>
+            <SearchBar onShowOverlay={handleToggle} />
+          </Grid>
+          <Grid justify="flex-end">
+            <Box ml={4}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleClickOpen}
+                startIcon={<CreateIcon />}
+              >
+                Đăng Tin
+              </Button>
+            </Box>
+          </Grid>
+          <Grid
+            wrap="nowrap"
+            container
+            direction="row"
+            justify="flex-end"
+            alignItems="center"
+            className={classes.rightHeader}
+            xs={3}
+          >
+            <Tooltip title="Tin nhắn">
+              <IconButton>
+                <Badge color="secondary" max={99} variant="dot">
+                  <ChatBubbleIcon style={{ color: 'white' }} />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Thông báo">
+              <IconButton>
+                <Badge color="secondary" max={99} variant="dot" zeroMinWidth>
+                  <NotificationsIcon style={{ color: 'white' }} />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Dark Mode">
+              <IconButton onClick={() => dispatch(toggleDarkMode())}>
+                {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon style={{ color: 'white' }} />}
+              </IconButton>
+            </Tooltip>
+            {isLogin ? (
+              <>
+                <Grid zeroMinWidth>
+                  <Typography noWrap>{userLogin}</Typography>
+                </Grid>
 
-                  <IconButton className={classes.menuButton} onClick={handleClick} color="inherit">
-                    <AccountCircleIcon />
-                  </IconButton>
-                </>
-              ) : (
-                <Button variant="contained" color="secondary" onClick={handleClickOpen}>
-                  Đăng Nhập
-                </Button>
-              )} */}
-
-              {/* <Tooltip title="Dark Mode">
-                <IconButton onClick={() => dispatch(toggleDarkMode())}>
-                  {isDarkMode ? (
-                    <Brightness7Icon />
-                  ) : (
-                    <Brightness4Icon style={{ color: 'white' }} />
-                  )}
+                <IconButton className={classes.menuButton} onClick={handleClick} color="inherit">
+                  <AccountCircleOutlinedIcon />
                 </IconButton>
-              </Tooltip> */}
-            </Grid>
-          </Toolbar>
-        </Container>
+              </>
+            ) : (
+              <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+                Đăng Nhập
+              </Button>
+            )}
+          </Grid>
+        </Toolbar>
       </AppBar>
       {openBackDrop && (
         <Backdrop
@@ -189,26 +205,8 @@ export default function ButtonAppBar(props) {
       >
         <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
         <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
-        {/* <MenuItem onClick={handleLogoutAction}>Logout</MenuItem> */}
+        <MenuItem onClick={handleLogoutAction}>Logout</MenuItem>
       </Menu>
-      {/* <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        {mode === MODE.LOGIN && (
-          <>
-            <Login handleClose={handleClose} />
-            <Button color="primary" onClick={() => setMode(MODE.REGISTER)}>
-              Don't you have account ? Sign up
-            </Button>
-          </>
-        )}
-        {mode === MODE.REGISTER && (
-          <>
-            <Register handleClose={handleClose} />
-            <Button color="primary" onClick={() => setMode(MODE.LOGIN)}>
-              Do you have account ? Sign in
-            </Button>
-          </>
-        )}
-      </Dialog> */}
     </div>
   );
 }

@@ -1,12 +1,12 @@
 import userReducer from '../features/Auth/userSlice';
 // import cartReducer from '../feature/Cart/cartSlice';
-// import systemReducer from '../feature/System/systemSlice';
+import systemReducer from '../features/System/systemSlice';
 const { configureStore } = require('@reduxjs/toolkit');
 
 const rootReducer = {
   user: userReducer,
   // cart: cartReducer,
-  // system: systemReducer,
+  system: systemReducer,
 };
 
 const store = configureStore({

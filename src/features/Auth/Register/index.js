@@ -33,8 +33,8 @@ export default function Register() {
   const dispatch = useDispatch();
   const handleSubmit = async (values) => {
     try {
-      values.username = values.email;
-      const action = register(values);
+      const { retypePassword, ...valuesSubmit } = values;
+      const action = register(valuesSubmit);
       const resultAction = await dispatch(action);
       unwrapResult(resultAction);
       toast.success('Đăng kí thành công !');

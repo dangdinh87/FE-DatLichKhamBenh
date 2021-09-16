@@ -51,8 +51,10 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     right: theme.spacing(1),
   },
-  link: {
+  register: {
     textDecoration: 'none',
+    fontSize: '1rem',
+    color: theme.palette.primary.light,
   },
 }));
 function LoginForm({ handleClose, onSubmit }) {
@@ -120,12 +122,12 @@ function LoginForm({ handleClose, onSubmit }) {
 
           <Grid container>
             <Grid item xs>
-              <Link className={classes.link} to="/register">
+              <Link className={classes.register} to="/register">
                 {'Quên mật khẩu'}
               </Link>
             </Grid>
             <Grid item>
-              <Link className={classes.link} to="/register">
+              <Link className={classes.register} to="/register">
                 {'Bạn chưa có tài khoản ? Đăng kí ngay'}
               </Link>
             </Grid>
