@@ -1,5 +1,5 @@
 import InputBase from '@material-ui/core/InputBase';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { alpha, makeStyles } from '@material-ui/core/styles';
 import { SearchRounded } from '@material-ui/icons';
 import queryString from 'query-string';
 import React, { useState } from 'react';
@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: fade(theme.palette.common.black, 0.15),
+    backgroundColor: alpha(theme.palette.common.black, 0.15),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.black, 0.25),
+      backgroundColor: alpha(theme.palette.common.black, 0.25),
     },
   },
   inputRoot: {
@@ -44,9 +44,9 @@ const useStyles = makeStyles((theme) => ({
     borderBottomLeftRadius: theme.shape.borderRadius,
     flex: 1,
     color: 'inherit',
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
   },
   inputInput: {

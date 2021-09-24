@@ -7,7 +7,7 @@ export const register = createAsyncThunk('users/register', async (payload) => {
   const data = await userApi.register(payload);
 
   localStorage.setItem(StorageKeys.TOKEN, data.token);
-  localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user.name));
+  localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
 
   return data.user;
 });
@@ -18,7 +18,44 @@ export const login = createAsyncThunk('users/login', async (payload) => {
 
   //save data to localStorage
   localStorage.setItem(StorageKeys.TOKEN, data.token);
-  localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user.name));
+  localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
+
+  //return data to reducer
+  return data.user;
+});
+
+export const updateUser = createAsyncThunk('users/update', async (payload) => {
+  //call Api login
+  const data = await userApi.updateUser(payload);
+
+  //save data to localStorage
+  // localStorage.setItem(StorageKeys.TOKEN, data.token);
+  // localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
+
+  //return data to reducer
+  return data.user;
+});
+
+export const updateAvatar = createAsyncThunk('users/update_avatar', async (payload) => {
+  //call Api login
+  const { formData, id } = payload;
+  const data = await userApi.updateAvatar(formData, id);
+
+  //save data to localStorage
+  // localStorage.setItem(StorageKeys.TOKEN, data.token);
+  // localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
+
+  //return data to reducer
+  return data.user;
+});
+
+export const getUser = createAsyncThunk('users/detail', async (payload) => {
+  //call Api login
+  const data = await userApi.getUser(payload);
+
+  //save data to localStorage
+  // localStorage.setItem(StorageKeys.TOKEN, data.token);
+  // localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
 
   //return data to reducer
   return data.user;

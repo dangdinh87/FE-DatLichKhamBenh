@@ -1,33 +1,26 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Avatar,
-  Checkbox,
   Container,
   CssBaseline,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   Grid,
   IconButton,
   LinearProgress,
-  Radio,
-  RadioGroup,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { PhotoCamera } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import * as yup from 'yup';
-import InputField from '../../../components/InputField';
-import PasswordField from '../../../components/PasswordField';
-import RadioField from '../../../components/RadioBox';
+import InputField from '../../../../components/InputField';
+import RadioField from '../../../../components/RadioBox';
+import UploadAvatar from '../../Components/uploadAvatar';
 
-RegisterForm.propTypes = {
+UpdateProfileForm.propTypes = {
   onSubmit: PropTypes.func,
 };
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   avatar: {
+    border: `1px solid ${theme.palette.primary.dark}`,
+    width: theme.spacing(10),
+    height: theme.spacing(10),
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
@@ -47,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(2, 0, 1, 0),
+    position: 'relative',
   },
   progress: {
     top: theme.spacing(1),
@@ -62,10 +59,29 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1rem',
     textDecoration: 'none',
   },
+  buttonSuccess: {
+    backgroundColor: theme.palette.primary.light,
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  },
+  buttonProgress: {
+    color: theme.palette,
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+  title: {
+    fontWeight: theme.typography.fontWeightMedium,
+    textTransform: 'uppercase',
+    marginBottom: theme.spacing(2),
+  },
 }));
-function RegisterForm({ handleClose, onSubmit }) {
+function UpdateProfileForm({ onSubmit, user }) {
+  let { address, email, name, phone, gender } = user;
   const schema = yup.object().shape({
-    username: yup.string().required('Tên tài khoản không được để trống !'),
     name: yup
       .string()
       .required('Họ tên không được để trống !')
@@ -76,20 +92,17 @@ function RegisterForm({ handleClose, onSubmit }) {
       .string()
       .required('Email không được để trống !')
       .email('Nhập đúng định dạng email !'),
-    password: yup
-      .string()
-      .required('Mật khẩu không được để trống !')
-      .min(6, 'Mật khẩu phải trên 6 kí tự'),
+    phone: yup.string(),
 
-    retypePassword: yup
-      .string()
-      .required('Nhập lại mật khẩu không được để trống !')
-      .oneOf([yup.ref('password')], 'Nhập lại mật khẩu không chính xác !'),
-    phone: yup.string().required('Số điện thoại không được để trống !'),
+    address: yup.string(),
   });
   const form = useForm({
     defaultValues: {
-      gender: 'male',
+      name: name,
+      email: email,
+      gender: gender,
+      phone: phone,
+      address: address,
     },
     resolver: yupResolver(schema),
   });
@@ -112,21 +125,13 @@ function RegisterForm({ handleClose, onSubmit }) {
     <Container component="main">
       <CssBaseline />
       {isSubmitting && <LinearProgress className={classes.progress} />}
-      <IconButton aria-label="clear" className={classes.closeBtn} onClick={handleClose}>
-        <CloseIcon color="primary" />
-      </IconButton>
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Đăng kí
+        <Typography component="h1" variant="h5" className={classes.title}>
+          Cập nhật thông tin người dùng
         </Typography>
+        <UploadAvatar user={user} />
         <form className={classes.form} onSubmit={form.handleSubmit(handleSubmit)}>
           <Grid container>
-            <Grid item xs={12}>
-              <InputField name="username" label="Tài khoản" form={form} />
-            </Grid>
             <Grid item xs={12}>
               <InputField name="name" label="Họ và tên" form={form} />
             </Grid>
@@ -138,6 +143,10 @@ function RegisterForm({ handleClose, onSubmit }) {
             </Grid>
             <Grid item xs={12}></Grid>
 
+            <Grid item xs={12}>
+              <InputField name="address" label="Địa chỉ" form={form} />
+            </Grid>
+
             <RadioField
               name="gender"
               defaultValue="male"
@@ -146,12 +155,6 @@ function RegisterForm({ handleClose, onSubmit }) {
               form={form}
             />
 
-            <Grid item xs={12}>
-              <PasswordField name="password" label="Mật khẩu" form={form} />
-            </Grid>
-            <Grid item xs={12}>
-              <PasswordField name="retypePassword" label="Nhập lại mật khẩu" form={form} />
-            </Grid>
             <Button
               type="submit"
               disabled={isSubmitting}
@@ -161,15 +164,9 @@ function RegisterForm({ handleClose, onSubmit }) {
               size="large"
               className={classes.submit}
             >
-              Sign Up
+              Cập nhật
+              {isSubmitting && <CircularProgress size={24} className={classes.buttonProgress} />}
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link to="/login" className={classes.login}>
-                  Bạn đã có tài khoản ? Đăng nhập ngay
-                </Link>
-              </Grid>
-            </Grid>
           </Grid>
         </form>
       </div>
@@ -177,4 +174,4 @@ function RegisterForm({ handleClose, onSubmit }) {
   );
 }
 
-export default RegisterForm;
+export default UpdateProfileForm;

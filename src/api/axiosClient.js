@@ -1,8 +1,9 @@
 import axios from 'axios';
-import nProgress from 'nprogress';
+import { STATIC_HOST } from '../constants';
+// import nProgress from 'nprogress';
 
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:8080/',
+  baseURL: STATIC_HOST,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -40,7 +41,7 @@ axiosClient.interceptors.response.use(
     //   const firstMessage = messageList.length > 0 ? messageList[0] : {};
     //   throw new Error(firstMessage.message);
     // }
-
+    // throw new Error(error.response.data.error);
     return Promise.reject(error.response.data.error);
   }
 );

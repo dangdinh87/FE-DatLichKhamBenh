@@ -7,11 +7,10 @@ RadioField.propTypes = {
   form: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
-  listSelect: PropTypes.array.isRequired,
+  dataList: PropTypes.array.isRequired,
 };
 
 function RadioField(props) {
-  console.log(props.listSelect);
   const { form, name, inline, defaultValue, dataList } = props;
   const {
     formState: { errors },

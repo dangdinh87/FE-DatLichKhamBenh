@@ -1,4 +1,4 @@
-import { Backdrop, Badge, Button, CssBaseline, IconButton, Tooltip } from '@material-ui/core';
+import { Backdrop, Badge, Button, CssBaseline, IconButton, Tooltip, Box } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
 import Menu from '@material-ui/core/Menu';
@@ -19,7 +19,6 @@ import { NavLink } from 'react-router-dom';
 import { logout } from '../../features/Auth/userSlice';
 import { toggleDarkMode } from '../../features/System/systemSlice';
 import SearchBar from '../SearchBar';
-import { Box } from '@mui/system';
 // import SearchBar from '../SearchBar';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 999,
   },
   menuButton: {
-    // marginRight: theme.spacing(2),
+    textTransform: 'capitalize',
+    background: theme.palette.primary.dark,
   },
   link: {
     textDecoration: 'none',
@@ -64,11 +64,8 @@ export default function ButtonAppBar(props) {
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
-  const [open, setOpen] = useState(false);
-  // const MODE = { LOGIN: 'login', REGISTER: 'register' };
   const classes = useStyles();
-  // const userLogin = useSelector((state) => state.user);\
-  const userLogin = JSON.parse(localStorage.getItem('user')) || '';
+  const userLogin = JSON.parse(localStorage.getItem('user'))?.name || '';
   const isLogin = JSON.parse(localStorage.getItem('user')) || false;
   const [openBackDrop, setOpenBackDrop] = React.useState(false);
   const handleCloseBackDrop = () => {
@@ -90,7 +87,11 @@ export default function ButtonAppBar(props) {
     if (location.pathname === '/login') return;
     history.push('/login');
   };
-  const handleClose = () => setOpen(false);
+  const goToProfile = () => {
+    history.push(`/profile/${isLogin._id}`);
+    setAnchorEl(null);
+    handleCloseMenu();
+  };
 
   const handleLogoutAction = () => {
     const action = logout();
@@ -104,7 +105,7 @@ export default function ButtonAppBar(props) {
       <CssBaseline />
       <AppBar className={classes.navBar} position="sticky" id="back-to-top-anchor">
         <Toolbar>
-          <Grid direction="row" justify="flex-start" alignItems="center" xs={4}>
+          <Grid direction="row" justifyContent="flex-start" alignItems="center" xs={4}>
             <Typography variant="h6">
               <NavLink
                 to="/post"
@@ -116,10 +117,10 @@ export default function ButtonAppBar(props) {
               </NavLink>
             </Typography>
           </Grid>
-          <Grid direction="row" justify="center" alignItems="center" xs={3}>
+          <Grid direction="row" justifyContent="center" alignItems="center" xs={3}>
             <SearchBar onShowOverlay={handleToggle} />
           </Grid>
-          <Grid justify="flex-end">
+          <Grid justifyContent="flex-end">
             <Box ml={4}>
               <Button
                 variant="contained"
@@ -135,7 +136,7 @@ export default function ButtonAppBar(props) {
             wrap="nowrap"
             container
             direction="row"
-            justify="flex-end"
+            justifyContent="flex-end"
             alignItems="center"
             className={classes.rightHeader}
             xs={3}
@@ -160,15 +161,10 @@ export default function ButtonAppBar(props) {
               </IconButton>
             </Tooltip>
             {isLogin ? (
-              <>
-                <Grid zeroMinWidth>
-                  <Typography noWrap>{userLogin}</Typography>
-                </Grid>
-
-                <IconButton className={classes.menuButton} onClick={handleClick} color="inherit">
-                  <AccountCircleOutlinedIcon />
-                </IconButton>
-              </>
+              <Button className={classes.menuButton} onClick={handleClick} color="inherit">
+                <Typography noWrap>{userLogin}</Typography>
+                &ensp; <AccountCircleOutlinedIcon />
+              </Button>
             ) : (
               <Button variant="contained" color="secondary" onClick={handleClickOpen}>
                 Đăng Nhập
@@ -203,9 +199,9 @@ export default function ButtonAppBar(props) {
         }}
         getContentAnchorEl={null}
       >
-        <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
-        <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
-        <MenuItem onClick={handleLogoutAction}>Logout</MenuItem>
+        <MenuItem onClick={goToProfile}>Thông tin cá nhân</MenuItem>
+        <MenuItem onClick={goToProfile}>Đổi mật khẩu</MenuItem>
+        <MenuItem onClick={handleLogoutAction}>Đăng xuất</MenuItem>
       </Menu>
     </div>
   );
