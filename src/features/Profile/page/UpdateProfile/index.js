@@ -59,11 +59,9 @@ export default function UpdateProfile() {
   const handleSubmit = async (values) => {
     const id1 = user._id;
     values.id = user._id;
-    console.log(id1, '1');
-    console.log(id, '1');
     try {
       unwrapResult(await dispatch(updateUser(values)));
-      toast.success('Cập nhật ảnh đại diện thành công 😘!');
+      toast.success('Cập nhật ảnh thông tin thành công!');
 
       history.push(`/profile/${id1}`);
     } catch (error) {

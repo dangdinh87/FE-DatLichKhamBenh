@@ -13,6 +13,14 @@ const axiosClient = axios.create({
 // Add a request interceptor
 axiosClient.interceptors.request.use(
   function (config) {
+    // const token = getToken();
+
+    // if (token && token !== 'undefined') {
+    //   config.headers.Authorization = `Bearer ${token}`;
+    // } else {
+    //   delete API.defaults.headers.common.Authorization;
+    // }
+
     // Do something before request is sent
     return config;
   },

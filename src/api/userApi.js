@@ -1,10 +1,5 @@
 import axiosClient from './axiosClient';
-
-const token = localStorage.getItem('access_token');
-
-const config = {
-  headers: { Authorization: `Bearer ${token}` },
-};
+import { StorageKeys } from '../constants';
 
 const userApi = {
   register(data) {
@@ -18,6 +13,10 @@ const userApi = {
   },
 
   updateUser(data) {
+    const token = localStorage.getItem(StorageKeys.TOKEN);
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
     const id = data.id;
     const url = `api/profile/${id}/edit`;
     return axiosClient.patch(url, data, config);
@@ -29,6 +28,7 @@ const userApi = {
   },
 
   updateAvatar(data, id) {
+    const token = localStorage.getItem(StorageKeys.TOKEN);
     const url = `api/profile/${id}/avatar`;
     return axiosClient.put(url, data, {
       headers: {

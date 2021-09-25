@@ -94,10 +94,10 @@ export default function ButtonAppBar(props) {
   };
 
   const handleLogoutAction = () => {
-    const action = logout();
-    dispatch(action);
+    dispatch(logout());
     setAnchorEl(null);
     handleCloseMenu();
+    history.push('/');
   };
 
   return (

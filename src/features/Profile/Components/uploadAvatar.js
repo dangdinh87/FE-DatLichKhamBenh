@@ -76,7 +76,7 @@ function UploadAvatar({ user }) {
       const id = user._id;
       unwrapResult(await dispatch(updateAvatar({ formData, id })));
       dispatch(toggleBackdrop(false));
-      toast.success('Cập nhật thành công !');
+      toast.success('Cập nhật ảnh đại diện thành công 😘 !');
       history.push(`/profile/${id}`);
     } catch (error) {
       toast.error(error.message);
