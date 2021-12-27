@@ -9,19 +9,12 @@ const axiosClient = axios.create({
   },
 });
 
-// Interceptors
-// Add a request interceptor
 axiosClient.interceptors.request.use(
   function (config) {
-    // const token = getToken();
-
-    // if (token && token !== 'undefined') {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // } else {
-    //   delete API.defaults.headers.common.Authorization;
-    // }
-
-    // Do something before request is sent
+    const token = JSON.parse(localStorage.getItem('jwt_token'));
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
     return config;
   },
   function (error) {

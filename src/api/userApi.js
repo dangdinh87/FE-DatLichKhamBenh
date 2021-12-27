@@ -1,5 +1,4 @@
 import axiosClient from './axiosClient';
-import { StorageKeys } from '../constants';
 
 const userApi = {
   register(data) {
@@ -13,13 +12,9 @@ const userApi = {
   },
 
   updateUser(data) {
-    const token = localStorage.getItem(StorageKeys.TOKEN);
-    const config = {
-      headers: { Authorization: `Bearer ${token}` },
-    };
     const id = data.id;
     const url = `api/profile/${id}/edit`;
-    return axiosClient.patch(url, data, config);
+    return axiosClient.patch(url, data);
   },
 
   getUser(id) {
@@ -28,14 +23,8 @@ const userApi = {
   },
 
   updateAvatar(data, id) {
-    const token = localStorage.getItem(StorageKeys.TOKEN);
     const url = `api/profile/${id}/avatar`;
-    return axiosClient.put(url, data, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    return axiosClient.put(url, data);
   },
 };
 

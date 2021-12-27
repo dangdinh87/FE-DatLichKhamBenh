@@ -19,6 +19,7 @@ import { NavLink } from 'react-router-dom';
 import { logout } from '../../features/Auth/userSlice';
 import { toggleDarkMode } from '../../features/System/systemSlice';
 import SearchBar from '../SearchBar';
+import './index.scss';
 // import SearchBar from '../SearchBar';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -100,109 +101,117 @@ export default function ButtonAppBar(props) {
     history.push('/');
   };
 
+  const MODE = { LOGIN: 'login', REGISTER: 'register' };
+
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar className={classes.navBar} position="sticky" id="back-to-top-anchor">
-        <Toolbar>
-          <Grid direction="row" justifyContent="flex-start" alignItems="center" xs={4}>
-            <Typography variant="h6">
-              <NavLink
-                to="/post"
-                exact
-                className={classes.link}
-                activeClassName={classes.link_active}
-              >
-                SecondHand Market
-              </NavLink>
-            </Typography>
-          </Grid>
-          <Grid direction="row" justifyContent="center" alignItems="center" xs={3}>
-            <SearchBar onShowOverlay={handleToggle} />
-          </Grid>
-          <Grid justifyContent="flex-end">
-            <Box ml={4}>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleClickOpen}
-                startIcon={<CreateIcon />}
-              >
-                Đăng Tin
-              </Button>
-            </Box>
-          </Grid>
-          <Grid
-            wrap="nowrap"
-            container
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-            className={classes.rightHeader}
-            xs={3}
-          >
-            <Tooltip title="Tin nhắn">
-              <IconButton>
-                <Badge color="secondary" max={99} variant="dot">
-                  <ChatBubbleIcon style={{ color: 'white' }} />
-                </Badge>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Thông báo">
-              <IconButton>
-                <Badge color="secondary" max={99} variant="dot" zeroMinWidth>
-                  <NotificationsIcon style={{ color: 'white' }} />
-                </Badge>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Dark Mode">
-              <IconButton onClick={() => dispatch(toggleDarkMode())}>
-                {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon style={{ color: 'white' }} />}
-              </IconButton>
-            </Tooltip>
-            {isLogin ? (
-              <Button className={classes.menuButton} onClick={handleClick} color="inherit">
-                <Typography noWrap>{userLogin}</Typography>
-                &ensp; <AccountCircleOutlinedIcon />
-              </Button>
-            ) : (
-              <Button variant="contained" color="secondary" onClick={handleClickOpen}>
-                Đăng Nhập
-              </Button>
-            )}
-          </Grid>
-        </Toolbar>
-      </AppBar>
-      {openBackDrop && (
-        <Backdrop
-          invisible={false}
-          transitionDuration={300}
-          className={classes.backdrop}
-          open={openBackDrop}
-          onClick={handleCloseBackDrop}
-        >
-          {/* <CircularProgress color="inherit" /> */}
-        </Backdrop>
-      )}
-      <Menu
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleCloseMenu}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        getContentAnchorEl={null}
-      >
-        <MenuItem onClick={goToProfile}>Thông tin cá nhân</MenuItem>
-        <MenuItem onClick={goToProfile}>Đổi mật khẩu</MenuItem>
-        <MenuItem onClick={handleLogoutAction}>Đăng xuất</MenuItem>
-      </Menu>
-    </div>
+    // <div className={classes.root}>
+    //   <CssBaseline />
+    //   <AppBar className={classes.navBar} position="sticky" id="back-to-top-anchor">
+    //     <Toolbar>
+    //       <Grid direction="row" justifyContent="flex-start" alignItems="center" xs={2}>
+    //         <div className="logo-header"></div>
+    //       </Grid>
+    //       <Grid direction="row" justifyContent="center" alignItems="center" xs={3}>
+    //         <SearchBar onShowOverlay={handleToggle} />
+    //       </Grid>
+    //       <Grid
+    //         wrap="nowrap"
+    //         container
+    //         direction="row"
+    //         justifyContent="flex-end"
+    //         alignItems="center"
+    //         className={classes.rightHeader}
+    //         xs={3}
+    //       >
+    //         <Tooltip title="Tin nhắn">
+    //           <IconButton>
+    //             <Badge color="secondary" max={99} variant="dot">
+    //               <ChatBubbleIcon style={{ color: 'white' }} />
+    //             </Badge>
+    //           </IconButton>
+    //         </Tooltip>
+    //         <Tooltip title="Thông báo">
+    //           <IconButton>
+    //             <Badge color="secondary" max={99} variant="dot" zeroMinWidth>
+    //               <NotificationsIcon style={{ color: 'white' }} />
+    //             </Badge>
+    //           </IconButton>
+    //         </Tooltip>
+    //         <Tooltip title="Dark Mode">
+    //           <IconButton onClick={() => dispatch(toggleDarkMode())}>
+    //             {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon style={{ color: 'white' }} />}
+    //           </IconButton>
+    //         </Tooltip>
+    //         {isLogin ? (
+    //           <Button className={classes.menuButton} onClick={handleClick} color="inherit">
+    //             <Typography noWrap>{userLogin}</Typography>
+    //             &ensp; <AccountCircleOutlinedIcon />
+    //           </Button>
+    //         ) : (
+    //           <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+    //             Đăng Nhập
+    //           </Button>
+    //         )}
+    //       </Grid>
+    //     </Toolbar>
+    //   </AppBar>
+    //   {openBackDrop && (
+    //     <Backdrop
+    //       invisible={false}
+    //       transitionDuration={300}
+    //       className={classes.backdrop}
+    //       open={openBackDrop}
+    //       onClick={handleCloseBackDrop}
+    //     >
+    //       {/* <CircularProgress color="inherit" /> */}
+    //     </Backdrop>
+    //   )}
+    //   <Menu
+    //     anchorEl={anchorEl}
+    //     keepMounted
+    //     open={Boolean(anchorEl)}
+    //     onClose={handleCloseMenu}
+    //     anchorOrigin={{
+    //       vertical: 'bottom',
+    //       horizontal: 'right',
+    //     }}
+    //     transformOrigin={{
+    //       vertical: 'top',
+    //       horizontal: 'right',
+    //     }}
+    //     getContentAnchorEl={null}
+    //   >
+    //     <MenuItem onClick={goToProfile}>Thông tin cá nhân</MenuItem>
+    //     <MenuItem onClick={goToProfile}>Đổi mật khẩu</MenuItem>
+    //     <MenuItem onClick={handleLogoutAction}>Đăng xuất</MenuItem>
+    //   </Menu>
+    // </div>
+    <header className="header-container">
+      <div className="header-box">
+        <div className="header-logo"></div>
+        <div className="header-navigation">
+          <ul className="header-navigation-list">
+            <li className="header-navigation-item">
+              <NavLink to="/home">Trang chủ </NavLink>
+            </li>
+
+            <li className="header-navigation-item">
+              <NavLink to="/about">Giới Thiệu</NavLink>
+            </li>
+            <li className="header-navigation-item">Đặt khám</li>
+            <li className="header-navigation-item">Cộng đồng</li>
+            <li className="header-navigation-item">Cẩm nang</li>
+          </ul>
+        </div>
+        <div className="header-action">
+          <button type="button" class="btn btn-primary me-3 rounded" onClick={handleClickOpen}>
+            Đăng nhập
+          </button>
+          <button type="button" class="btn btn-secondary">
+            Đăng kí
+          </button>
+        </div>
+      </div>
+    </header>
   );
 }

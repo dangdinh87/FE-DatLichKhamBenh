@@ -60,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
 function LoginForm({ handleClose, onSubmit }) {
   const schema = yup.object().shape({
     username: yup.string().required('Tên đăng nhập không được để trống !'),
-    // .email('Vui lòng nhập chính xác địa chỉ email !')
     password: yup
       .string()
       .required('Mật khẩu không được để trống !')
@@ -72,6 +71,7 @@ function LoginForm({ handleClose, onSubmit }) {
       password: '',
     },
     resolver: yupResolver(schema),
+    mode: onchange,
   });
 
   const handleSubmit = async (values) => {
@@ -103,10 +103,6 @@ function LoginForm({ handleClose, onSubmit }) {
             <Grid item xs={12}>
               <PasswordField name="password" label="Mật khẩu" form={form} />
             </Grid>
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Nhớ mật khẩu"
-            /> */}
             <Button
               type="submit"
               disabled={isSubmitting}
@@ -118,19 +114,6 @@ function LoginForm({ handleClose, onSubmit }) {
             >
               Đăng Nhập
             </Button>
-          </Grid>
-
-          <Grid container>
-            <Grid item xs>
-              <Link className={classes.register} to="/register">
-                {'Quên mật khẩu'}
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link className={classes.register} to="/register">
-                {'Bạn chưa có tài khoản ? Đăng kí ngay'}
-              </Link>
-            </Grid>
           </Grid>
         </form>
       </div>

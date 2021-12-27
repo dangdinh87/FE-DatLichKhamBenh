@@ -1,0 +1,14 @@
+.footer-container {
+  background-color: white;
+  border-top: 20px solid rgb(245,245,245)
+}
+
+.footer-menu {
+  cursor        : pointer;
+  margin        : 8px 14px;
+  text-transform: uppercase;
+}
+
+.footer-menu:hover {
+  text-decoration: underline
+}

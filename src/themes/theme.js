@@ -5,7 +5,7 @@ export function themeConfig({ isDarkMode }) {
     palette: {
       type: isDarkMode ? 'dark' : 'light',
       primary: {
-        main: isDarkMode ? '#26a69a' : '#009688',
+        main: isDarkMode ? '#ffffff' : '#ffffff',
         dark: '#00695c',
       },
 

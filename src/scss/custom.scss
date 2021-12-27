@@ -1,0 +1,20 @@
+// Override default variables before the import
+// you can open the bootstrap.scss module and check any available variables.
+$primary: #00CBA7;
+$secondary: #E0004D;
+$success: #3e8d63;
+$info: #7854e4;
+$warning: #b8c924;
+$danger: #d62518;
+$light: #f8f9fa;
+$dark: #343a40;
+
+.btn-primary {
+  color: #ffffff !important;
+  // background-color: $primary;
+  // border-color: #00CBA7;
+}
+// $font-size : 20px;
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';

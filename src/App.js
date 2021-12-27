@@ -10,9 +10,12 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from './components/Footer';
 import Header from './components/Header';
 import routers from './routes/index';
 import { themeConfig } from './themes/theme';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 // import { themeConfig } from './theme/themes';
 // import Footer from './components/Footer';
 
@@ -64,12 +67,12 @@ export default function App(props) {
         <CssBaseline />
         <Header />
         {showRouter(routers)}
-        {/* <Footer /> */}
-        <ScrollTop {...props}>
+        <Footer />
+        {/* <ScrollTop {...props}>
           <Fab color="primary" size="small" aria-label="scroll back to top">
             <KeyboardArrowUpIcon />
           </Fab>
-        </ScrollTop>
+        </ScrollTop> */}
       </ThemeProvider>
     </Router>
   );

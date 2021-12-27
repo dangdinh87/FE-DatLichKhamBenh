@@ -94,8 +94,6 @@ function ProfileFeature(props) {
   } = useRouteMatch();
   const { user, loading } = useUserDetail(id);
 
-  console.log(id, 'trang chi tiet nguoi dung');
-
   if (loading) {
     return (
       <div className={classes.root}>

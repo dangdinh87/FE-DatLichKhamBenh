@@ -1,6 +1,6 @@
 import React from 'react';
 import NotFound from './../components/NotFound';
-import PostFeature from './../features/Post';
+import HomePage from './../pages/Home';
 import LoginFeature from './../features/Auth/Login';
 import RegisterFeature from './../features/Auth/Register';
 import ProfileFeature from './../features/Profile';
@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/',
     exact: true,
-    main: () => <PostFeature />,
+    main: () => <HomePage />,
   },
   {
     path: '/login',
