@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { STATIC_HOST } from '../constants';
 // import nProgress from 'nprogress';
 
@@ -11,7 +12,7 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   function (config) {
-    const token = JSON.parse(localStorage.getItem('jwt_token'));
+    const token = localStorage.getItem('token') || null;
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -31,19 +32,26 @@ axiosClient.interceptors.response.use(
     return response.data;
   },
   function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
-    // const { config, status, data } = error.response;
-    // const URLS = ['/api/auth/register', '/api/auth/login'];
-    // if (URLS.includes(config.url) && status === 400) {
-    //   const errorList = data.data || [];
-    //   const firstError = errorList.length > 0 ? errorList[0] : {};
-    //   const messageList = firstError.messages || [];
-    //   const firstMessage = messageList.length > 0 ? messageList[0] : {};
-    //   throw new Error(firstMessage.message);
+    const statusCode = error.response.status;
+    // if (statusCode === 404) {
+    //   window.location.href = '/not-found';
+    //   return;
     // }
-    // throw new Error(error.response.data.error);
-    return Promise.reject(error.response.data.error);
+    if (statusCode === 401) {
+      window.location.href = '/login';
+      return;
+    }
+    if (statusCode === 403) {
+      window.location.href = '/forbidden';
+      return;
+    }
+    if (statusCode === 500) {
+      // show notification
+      toast.error('Lỗi hệ thống');
+      console.log('error', error);
+      return;
+    }
+    return Promise.reject(error.response.data || error);
   }
 );
 

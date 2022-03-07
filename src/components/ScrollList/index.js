@@ -42,6 +42,7 @@ function ScrollList({ setImage = null, listImage, renderItem, displaySelected = 
                       // margin: '0 10px',
                       width: 'auto',
                       userSelect: 'none',
+                      height : "100%"
                     }}
                     // className="card"
                   >

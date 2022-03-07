@@ -1,0 +1,15 @@
+.footer-container {
+  background-color: white;
+  border-top: 20px solid whitesmoke;
+}
+
+.footer-menu {
+  cursor: pointer;
+  margin: 8px 14px;
+  text-transform: uppercase;
+}
+
+.footer-menu:hover {
+  text-decoration: underline;
+}
+/*# sourceMappingURL=index.css.map */

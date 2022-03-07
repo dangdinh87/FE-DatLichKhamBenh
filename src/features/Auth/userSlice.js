@@ -4,36 +4,34 @@ import { StorageKeys } from '../../constants/storageKey';
 // import { toastError } from "../../components/Notification";
 
 export const register = createAsyncThunk('users/register', async (payload) => {
-  const data = await userApi.register(payload);
-
-  localStorage.setItem(StorageKeys.TOKEN, data.token);
-  localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
-
-  return data.user;
+  const response = await userApi.register(payload);
+  //save data to localStorage
+  localStorage.setItem('token', response.token);
+  localStorage.setItem('user', JSON.stringify(response.data));
+  //return data to reducer
+  return response.data;
 });
 
 export const login = createAsyncThunk('users/login', async (payload) => {
   //call Api login
-  const data = await userApi.login(payload);
-
+  const response = await userApi.login(payload);
   //save data to localStorage
-  localStorage.setItem(StorageKeys.TOKEN, data.token);
-  localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
-
+  localStorage.setItem('token', response.token);
+  localStorage.setItem('user', JSON.stringify(response.data));
   //return data to reducer
-  return data.user;
+  return response.data;
 });
 
 export const updateUser = createAsyncThunk('users/update', async (payload) => {
   //call Api login
-  const data = await userApi.updateUser(payload);
+  const response = await userApi.updateUser(payload);
 
   //save data to localStorage
-  // localStorage.setItem(StorageKeys.TOKEN, data.token);
-  // localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
+  localStorage.setItem('token', response.token);
+  localStorage.setItem('user', JSON.stringify(response.data));
 
   //return data to reducer
-  return data.user;
+  return response.user;
 });
 
 export const updateAvatar = createAsyncThunk('users/update_avatar', async (payload) => {
@@ -69,8 +67,8 @@ const userSlice = createSlice({
   },
   reducers: {
     logout(state, action) {
-      localStorage.removeItem(StorageKeys.TOKEN);
-      localStorage.removeItem(StorageKeys.USER);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
       state.current = {};
     },
   },

@@ -9,10 +9,21 @@ InputField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   disabled: PropTypes.bool,
+  size: PropTypes.string,
 };
 
 function InputField(props) {
-  const { form, name, label, disabled, type = 'text' } = props;
+  const {
+    form,
+    name,
+    label,
+    disabled,
+    type = 'text',
+    placeholder,
+    size,
+    showRequired,
+    style,
+  } = props;
   const {
     formState: { errors },
   } = form;
@@ -27,35 +38,28 @@ function InputField(props) {
         fieldState: { invalid, isTouched, isDirty, error },
         formState,
       }) => (
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>{label}</Form.Label>
+        <Form.Group className="" controlId="exampleForm.ControlInput1">
+          <Form.Label>
+            {label} {showRequired && <span className="text-danger">*</span>}
+          </Form.Label>
           <Form.Control
             ref={ref}
             onChange={onChange}
             disabled={disabled}
             type={type}
-            placeholder={label}
+            placeholder={placeholder}
             value={value}
-            isValid={!hasError}
+            // isValid={!hasError}
             isInvalid={!!hasError}
             name={name}
             className="p-3"
+            size={size}
+            style={style}
+            // rows={3}
+            {...props}
           />
-          <p className="text-danger mt-1">{errors[name]?.message}</p>
+          <p className="text-danger mb-1">{errors[name]?.message}</p>
         </Form.Group>
-        // <TextField
-        //   // defaultValue
-        //   margin="normal"
-        //   variant="outlined"
-        //   fullWidth
-        //   label={label}
-        //   disabled={disabled}
-        //   error={!!hasError}
-        //   helperText={errors[name]?.message}
-        //   value={value}
-        //   onChange={onChange}
-        //   name={name}
-        // />
       )}
     />
   );

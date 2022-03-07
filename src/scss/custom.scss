@@ -2,12 +2,25 @@
 // you can open the bootstrap.scss module and check any available variables.
 $primary: #00CBA7;
 $secondary: #E0004D;
-$success: #3e8d63;
-$info: #7854e4;
-$warning: #b8c924;
-$danger: #d62518;
-$light: #f8f9fa;
-$dark: #343a40;
+// $success: #3e8d63;
+$info: #0d6efd;
+// $warning: #b8c924;
+// $danger: #d62518;
+// $light: #f8f9fa;
+// $dark: #343a40;
+
+$display-font-sizes: (
+  1: 5rem,
+  2: 4.5rem,
+  3: 4rem,
+  4: 3.5rem,
+  5: 3rem,
+  6: 2.5rem,
+  7: 2rem,
+  8: 1.5rem
+);
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 .btn-primary {
   color: #ffffff !important;

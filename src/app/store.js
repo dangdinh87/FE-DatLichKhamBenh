@@ -1,11 +1,11 @@
 import userReducer from '../features/Auth/userSlice';
-// import cartReducer from '../feature/Cart/cartSlice';
+import doctorReducer from '../pages/Doctor/doctorSlice';
 import systemReducer from '../features/System/systemSlice';
 const { configureStore } = require('@reduxjs/toolkit');
 
 const rootReducer = {
   user: userReducer,
-  // cart: cartReducer,
+  doctor: doctorReducer,
   system: systemReducer,
 };
 

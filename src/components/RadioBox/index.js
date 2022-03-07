@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 import { Controller } from 'react-hook-form';
+import { Form } from 'react-bootstrap';
 
 RadioField.propTypes = {
   form: PropTypes.object.isRequired,
@@ -11,7 +12,7 @@ RadioField.propTypes = {
 };
 
 function RadioField(props) {
-  const { form, name, inline, defaultValue, dataList } = props;
+  const { form, name, inline, defaultValue, dataList, label } = props;
   const {
     formState: { errors },
   } = form;
@@ -26,19 +27,22 @@ function RadioField(props) {
         fieldState: { invalid, isTouched, isDirty, error },
         formState,
       }) => (
-        <RadioGroup
-          onChange={onChange}
-          name={name}
-          value={value}
-          row={inline}
-          defaultValue={defaultValue}
-          error={!!hasError}
-          helperText={errors[name]?.message}
-        >
-          {dataList.map((item) => (
-            <FormControlLabel value={item.value} control={<Radio />} label={item.name} />
-          ))}
-        </RadioGroup>
+        <>
+          <Form.Label>{label}</Form.Label>
+          <RadioGroup
+            onChange={onChange}
+            name={name}
+            value={value}
+            row={inline}
+            defaultValue={defaultValue}
+            error={!!hasError}
+            helperText={errors[name]?.message}
+          >
+            {dataList.map((item) => (
+              <FormControlLabel value={item.value} control={<Radio />} label={item.name} />
+            ))}
+          </RadioGroup>
+        </>
       )}
     />
   );

@@ -1,0 +1,14 @@
+.admin-wrapper {
+  width: 100%;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.admin-side-bar {
+  min-width: 300px;
+  background-color: #e2e2e2;
+}
+/*# sourceMappingURL=index.css.map */

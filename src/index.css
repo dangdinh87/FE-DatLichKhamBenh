@@ -24,3 +24,14 @@ body {
 code {}
 
 div {}
+
+p {
+  margin : 0 !important;
+  padding : 0 !important;
+}
+
+@import "../node_modules/@syncfusion/ej2-base/styles/bootstrap5.css";
+@import "../node_modules/@syncfusion/ej2-inputs/styles/bootstrap5.css";
+@import "../node_modules/@syncfusion/ej2-popups/styles/bootstrap5.css";
+@import "../node_modules/@syncfusion/ej2-lists/styles/bootstrap5.css";
+@import "../node_modules/@syncfusion/ej2-react-calendars/styles/bootstrap5.css";

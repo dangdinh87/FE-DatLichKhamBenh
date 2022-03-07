@@ -51,6 +51,11 @@
       border-bottom: 2px solid #22b914;
     }
 
+    .header-navigation-item__active {
+      color        : #22b914 !important;
+      border-bottom: 2px solid #22b914;
+    }
+
     .header-action {
       display        : flex;
       flex           : 4;

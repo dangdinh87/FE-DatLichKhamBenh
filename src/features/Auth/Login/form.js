@@ -25,7 +25,7 @@ LoginForm.propTypes = {
 };
 const useStyles = makeStyles((theme) => ({
   paper: {
-    margin: theme.spacing(1, 1, 0, 1),
+    margin: theme.spacing(1, 4, 0, 1),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+    // marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -51,10 +51,8 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     right: theme.spacing(1),
   },
-  register: {
+  login: {
     textDecoration: 'none',
-    fontSize: '1rem',
-    color: theme.palette.primary.light,
   },
 }));
 function LoginForm({ handleClose, onSubmit }) {
@@ -82,42 +80,42 @@ function LoginForm({ handleClose, onSubmit }) {
   const classes = useStyles();
   const { isSubmitting } = form.formState;
   return (
-    <Container component="main">
-      <CssBaseline />
-      {isSubmitting && <LinearProgress className={classes.progress} />}
-      <IconButton aria-label="clear" className={classes.closeBtn} onClick={handleClose}>
-        <CloseIcon color="primary" />
-      </IconButton>
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Đăng Nhập
-        </Typography>
-        <form className={classes.form} onSubmit={form.handleSubmit(handleSubmit)}>
-          <Grid container>
-            <Grid item xs={12}>
-              <InputField name="username" label="Tên đăng nhập" form={form} />
-            </Grid>
-            <Grid item xs={12}>
-              <PasswordField name="password" label="Mật khẩu" form={form} />
-            </Grid>
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              fullWidth
-              variant="contained"
-              size="large"
-              color="primary"
-              className={classes.submit}
-            >
-              Đăng Nhập
-            </Button>
+    // <Container component="main">
+    <div className={classes.paper}>
+      <Avatar className={classes.avatar}>
+        <LockOutlinedIcon />
+      </Avatar>
+      <h4 className="fw-bold">Đăng Nhập</h4>
+      <form className={classes.form} onSubmit={form.handleSubmit(handleSubmit)}>
+        <Grid container>
+          <Grid item xs={12}>
+            <InputField name="username" label="Tên đăng nhập" form={form} />
           </Grid>
-        </form>
-      </div>
-    </Container>
+          <Grid item xs={12}>
+            <PasswordField name="password" label="Mật khẩu" form={form} />
+          </Grid>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            fullWidth
+            variant="contained"
+            size="large"
+            color="secondary"
+            className="btn btn-primary mx-auto mt-3 w-100 mb-2"
+          >
+            Đăng Nhập
+          </button>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link to="/register" className={classes.login}>
+                Bạn chưa có tài khoản ? Đăng kí ngay
+              </Link>
+            </Grid>
+          </Grid>
+        </Grid>
+      </form>
+    </div>
+    // </Container>
   );
 }
 
